@@ -4,9 +4,9 @@ provider "aws" {
   region     = var.aws_region
 }
 resource "aws_instance" "simple_front" {
-  ami           = "ami-0ebb6753c095cb52a"
-  instance_type = "t3.micro"
-  key_name      = "ec2_test_keypair"
+  ami           = var.ami
+  instance_type = var.instance_type
+  key_name      = var.key_name
   user_data = <<-EOF
     #!/bin/bash
     sudo apt update
@@ -46,7 +46,7 @@ resource "aws_security_group" "security_group" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["81.38.224.131/32"]
+    cidr_blocks = [var.my_ip]
   }
   ingress {
     from_port   = 80
